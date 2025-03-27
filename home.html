@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philippine History Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .quiz-container {
+            background: white;
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .options button:hover {
+            background-color: #0056b3;
+        }
+        #result, #score {
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Philippine History Quiz</h1>
+        <div id="question" class="question"></div>
+        <div id="options" class="options"></div>
+        <div id="result"></div>
+        <div id="score">Score: 0</div>
+    </div>
+
+    <script>
+        const quizData = [
+            { question: "Who is known as the national hero of the Philippines?", options: ["Andres Bonifacio", "Jose Rizal", "Emilio Aguinaldo", "Lapu-Lapu"], answer: "Jose Rizal" },
+            { question: "In what year did the Philippines gain independence from Spain?", options: ["1896", "1898", "1901", "1946"], answer: "1898" },
+            { question: "Who was the first President of the Philippines?", options: ["Manuel Quezon", "Emilio Aguinaldo", "Jose P. Laurel", "Sergio Osmeña"], answer: "Emilio Aguinaldo" },
+            { question: "What is the name of the treaty that ended Spanish rule in the Philippines?", options: ["Treaty of Versailles", "Treaty of Paris", "Treaty of Manila", "Treaty of Tordesillas"], answer: "Treaty of Paris" },
+            { question: "Which battle is considered the first major victory of Filipinos against foreign invaders?", options: ["Battle of Mactan", "Battle of Tirad Pass", "Battle of Manila", "Battle of Leyte Gulf"], answer: "Battle of Mactan" },
+            { question: "What was the main reason for the execution of Jose Rizal?", options: ["Treason", "Espionage", "Rebellion", "Murder"], answer: "Treason" },
+            { question: "Who was the leader of the Katipunan movement?", options: ["Jose Rizal", "Andres Bonifacio", "Emilio Aguinaldo", "Antonio Luna"], answer: "Andres Bonifacio" },
+            { question: "Where was the first Philippine Republic established?", options: ["Manila", "Cavite", "Malolos", "Iloilo"], answer: "Malolos" },
+            { question: "Which Philippine president declared Martial Law in 1972?", options: ["Manuel Roxas", "Diosdado Macapagal", "Ferdinand Marcos", "Corazon Aquino"], answer: "Ferdinand Marcos" },
+            { question: "What was the blood compact between Legazpi and Sikatuna called?", options: ["Pacto de Sangre", "Sandugo", "Kasunduan ng Biak-na-Bato", "Treaty of Manila"], answer: "Sandugo" }
+        ];
+        
+        let currentQuestion = 0;
+        let score = 0;
+        const questionElement = document.getElementById("question");
+        const optionsElement = document.getElementById("options");
+        const resultElement = document.getElementById("result");
+        const scoreElement = document.getElementById("score");
+
+        function loadQuestion() {
+            const q = quizData[currentQuestion];
+            questionElement.textContent = q.question;
+            optionsElement.innerHTML = "";
+            q.options.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option);
+                optionsElement.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selected) {
+            const correct = quizData[currentQuestion].answer;
+            if (selected === correct) {
+                resultElement.textContent = "Correct!";
+                resultElement.style.color = "green";
+                score++;
+            } else {
+                resultElement.textContent = "Wrong! The correct answer is " + correct;
+                resultElement.style.color = "red";
+            }
+            scoreElement.textContent = "Score: " + score;
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                setTimeout(() => {
+                    resultElement.textContent = "";
+                    loadQuestion();
+                }, 1000);
+            } else {
+                setTimeout(() => {
+                    questionElement.textContent = "Quiz Completed!";
+                    optionsElement.innerHTML = "";
+                    resultElement.textContent = "Final Score: " + score + " out of " + quizData.length;
+                }, 1000);
+            }
+        }
+        
+        loadQuestion();
+    </script>
+</body>
+</html>
